@@ -51,21 +51,32 @@ export async function deleteProject(id) {
 
 
 //SUBSCRIPTIONS
-const API_NEWSLETTER = "http://localhost:3000/subscriptions";
+import { supabase } from "./supabaseClient.js"; //
 
 export async function subscribeUser(user) {
-    const res = await fetch(`${API_NEWSLETTER}?email=${user.email}`);
-    const data = await res.json();
-    if (data.length > 0) {
+    const { data: existing, error: checkError } = await supabase
+        .from("subscriptions")
+        .select("email")
+        .eq("email", user.email);
+
+    if (checkError) throw new Error("Failed to check subscription");
+
+    if (existing.length > 0) {
         throw new Error("Email already subscribed");
     }
 
-    const response = await fetch(API_NEWSLETTER, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(user),
-    });
+    // adaugă utilizatorul în tabela subscriptions
+    const { data, error } = await supabase
+        .from("subscriptions")
+        .insert([
+            {
+                email: user.email,
+                firstName: user.firstName,
+                lastName: user.lastName
+            }
+        ]);
 
-    if (!response.ok) throw new Error("Failed to subscribe");
-    return await response.json();
+    if (error) throw new Error("Failed to subscribe");
+
+    return data;
 }

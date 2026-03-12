@@ -130,25 +130,5 @@
       "currentAmount": 6000,
       "datePublished": "2025-03-18"
     }
-  ],
-  "subscriptions": [
-    {
-      "id": "1",
-      "email": "john@example.com",
-      "firstName": "John",
-      "lastName": "Doe"
-    },
-    {
-      "id": "d07d",
-      "email": "ionelcioloca@gmail.com",
-      "firstName": "",
-      "lastName": ""
-    },
-    {
-      "id": "6e92",
-      "email": "utzzza1337@gmail.com",
-      "firstName": "",
-      "lastName": ""
-    }
   ]
 }
